@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+<meta name="robots" content="noindex, nofollow">
+<title>티니핑 타이쿤 · master 10/14</title>
+<link rel="icon" href="data:,">
+<style>
+  html, body { margin:0; height:100%; background:#111; overflow:hidden; touch-action:none; }
+  #stage { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; }
+  #unity-canvas { display:block; background:#231F20; outline:none; }
+  #loading { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; color:#fff; font-family:system-ui, "Malgun Gothic", sans-serif; pointer-events:none; }
+  #bar { width:min(60vw, 260px); height:10px; border-radius:6px; background:rgba(255,255,255,.2); overflow:hidden; }
+  #fill { width:0; height:100%; background:#ff5fa2; transition:width .2s; }
+  #label { font-size:14px; opacity:.85; }
+  #warn { position:absolute; left:0; right:0; top:0; z-index:5; font:14px system-ui, sans-serif; }
+  #side { position:fixed; left:16px; bottom:16px; max-width:220px; color:#bbb; font:13px/1.5 system-ui, "Malgun Gothic", sans-serif; }
+  #side a { color:#ff8cc0; }
+  @media (orientation: portrait), (max-width: 900px) { #side { display:none; } }
+  #footer { position:fixed; bottom:0; height:38px; display:none; align-items:center; justify-content:space-between; gap:8px; box-sizing:border-box; padding-left:12px; background:#1b1b1b; color:#ddd; font:13px system-ui, "Malgun Gothic", sans-serif; }
+  #footer-title { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+  #fullscreen { flex:none; display:flex; align-items:center; justify-content:center; width:38px; height:38px; margin:0; padding:0; border:0; background:#29a8e0; color:#fff; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  #fullscreen:hover { background:#45b8ec; }
+  #fullscreen:disabled { opacity:.4; cursor:default; }
+  #fullscreen svg { width:20px; height:20px; }
+  #error { position:fixed; inset:0; z-index:10; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.7); font-family:system-ui, "Malgun Gothic", sans-serif; }
+  #error .box { width:min(92vw, 520px); max-height:86vh; overflow:auto; background:#fff; color:#222; border-radius:12px; padding:18px; box-sizing:border-box; }
+  #error h2 { margin:0 0 8px; font-size:18px; }
+  #error p { margin:6px 0; font-size:14px; line-height:1.5; }
+  #error pre { white-space:pre-wrap; word-break:break-all; background:#f3f3f3; border-radius:8px; padding:10px; font-size:12px; max-height:40vh; overflow:auto; }
+  #error .buttons { display:flex; gap:8px; justify-content:flex-end; margin-top:12px; }
+  #error button { font-size:15px; padding:8px 14px; border-radius:8px; border:0; background:#ff5fa2; color:#fff; }
+  #error button.secondary { background:#ddd; color:#222; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="unity-canvas" tabindex="-1"></canvas>
+  <div id="loading"><div id="bar"><div id="fill"></div></div><div id="label">불러오는 중… 0%</div></div>
+  <div id="warn"></div>
+</div>
+<div id="side">
+  <b>master 10/14</b> · 2c6a31d2<br>
+  치트: 왼쪽 위 프로필(Lv) 버튼 <b>5번 연속</b> 클릭
+</div>
+<div id="footer">
+  <span id="footer-title"></span>
+  <button id="fullscreen" type="button" title="전체화면" aria-label="전체화면" disabled>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-7 7M10 20H4v-6M4 20l7-7"/></svg>
+  </button>
+</div>
+<div id="error">
+  <div class="box">
+    <h2 id="error-title">오류가 발생했어요</h2>
+    <p id="error-hint"></p>
+    <pre id="error-message"></pre>
+    <p>최근 로그</p>
+    <pre id="error-logs"></pre>
+    <div class="buttons">
+      <button class="secondary" id="error-close">닫기</button>
+      <button id="error-retry">다시 시작</button>
+    </div>
+  </div>
+</div>
+<script>
+  // ── 진행 단계·로그 기록 ─────────────────────────────────────────────
+  // iOS Safari는 메모리가 모자라면 탭을 죽이고 페이지를 다시 연다. 그러면 오류 메시지도 남지 않으므로
+  // 진행 단계와 최근 로그를 localStorage에 남겨 두고, 다시 열렸을 때 직전 실행이 어디서 끊겼는지 보여 준다.
+  // 같은 github.io 도메인에 여러 빌드가 올라가므로 빌드 경로별로 따로 기록한다.
+  var SESSION_KEY = "tt_webgl_session:" + location.pathname;
+  var CRASH_WINDOW_MS = 10 * 60 * 1000;
+  var session = { stage: "page", time: Date.now(), logs: [] };
+  var lastSave = 0;
+
+  function saveSession(force) {
+    var now = Date.now();
+    if (!force && now - lastSave < 1000) return;
+    lastSave = now;
+    session.time = now;
+    try { localStorage.setItem(SESSION_KEY, JSON.stringify(session)); } catch (e) {}
+  }
+
+  function pushLog(level, args) {
+    var text = Array.prototype.map.call(args, function (a) {
+      if (a instanceof Error) return a.message;
+      return typeof a === "string" ? a : (function () { try { return JSON.stringify(a); } catch (e) { return String(a); } })();
+    }).join(" ");
+    session.logs.push(level + " " + text.slice(0, 400));
+    if (session.logs.length > 40) session.logs.shift();
+    saveSession(level !== "log");
+  }
+
+  ["log", "warn", "error"].forEach(function (level) {
+    var orig = console[level].bind(console);
+    console[level] = function () { pushLog(level, arguments); orig.apply(null, arguments); };
+  });
+
+  window.ttReportStage = function (stage) {
+    session.stage = stage;
+    pushLog("stage", [stage]);
+    saveSession(true);
+    if (stage.indexOf("boot-error") === 0) showError("로딩 실패", stage.replace(/^boot-error:\s*/, ""));
+  };
+
+  // 정상적으로 닫거나 새로고침하면 pagehide가 온다. 탭이 강제로 죽으면 오지 않는다.
+  window.addEventListener("pagehide", function () {
+    session.stage = "closed";
+    saveSession(true);
+  });
+
+  // ── 오류 팝업 (자동 새로고침하지 않는다) ─────────────────────────────
+  var errorShown = false;
+  function describe(message) {
+    if (/memory|Cannot enlarge|Invalid array buffer|allocat/i.test(message))
+      return "메모리가 부족해 게임을 계속할 수 없어요. 다른 탭·앱을 닫은 뒤 다시 시작해 주세요.";
+    if (/context lost/i.test(message))
+      return "그래픽(WebGL) 컨텍스트를 잃었어요. 메모리가 부족할 때 자주 생깁니다.";
+    return "";
+  }
+
+  function showError(title, message) {
+    pushLog("error", [title + ": " + message]);
+    if (errorShown) return;
+    errorShown = true;
+    // 캔버스가 전체화면이면 팝업이 가려지므로 먼저 빠져나온다.
+    var exitFullscreen = document.exitFullscreen || document.webkitExitFullscreen;
+    if ((document.fullscreenElement || document.webkitFullscreenElement) && exitFullscreen) {
+      var exiting = exitFullscreen.call(document);
+      if (exiting && exiting.catch) exiting.catch(function () {});
+    }
+    document.querySelector("#error-title").textContent = title;
+    document.querySelector("#error-hint").textContent = describe(message);
+    document.querySelector("#error-message").textContent = message;
+    document.querySelector("#error-logs").textContent = session.logs.slice(-15).join("\n");
+    document.querySelector("#error").style.display = "flex";
+  }
+
+  document.querySelector("#error-close").onclick = function () {
+    document.querySelector("#error").style.display = "none";
+  };
+  document.querySelector("#error-retry").onclick = function () {
+    // 사용자가 직접 누를 때만 다시 연다.
+    session = { stage: "page", time: Date.now(), logs: [] };
+    saveSession(true);
+    location.reload();
+  };
+
+  // 게임이 시작할 때 Screen.fullScreen = true를 호출한다. PC에서는 첫 클릭에 가로 전체화면으로 바뀌므로 요청을 막고,
+  // 하단 바의 전체화면 버튼을 누를 때만 잠깐 풀어 준다.
+  var nativeRequestFullscreen = Element.prototype.requestFullscreen;
+  var nativeWebkitRequestFullscreen = Element.prototype.webkitRequestFullscreen;
+  var allowFullscreen = false;
+  if (!/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+    if (nativeRequestFullscreen) Element.prototype.requestFullscreen = function () {
+      return allowFullscreen ? nativeRequestFullscreen.apply(this, arguments) : Promise.resolve();
+    };
+    if (nativeWebkitRequestFullscreen) Element.prototype.webkitRequestFullscreen = function () {
+      if (allowFullscreen) nativeWebkitRequestFullscreen.apply(this, arguments);
+    };
+  }
+
+  var ASPECT = 9 / 16;
+  var FOOTER_HEIGHT = 38;
+  var canvas = document.querySelector("#unity-canvas");
+  var footer = document.querySelector("#footer");
+  var fullscreenButton = document.querySelector("#fullscreen");
+
+  // ── 하단 바·전체화면 ──────────────────────────────────────────────
+  // Unity 기본 템플릿처럼 캔버스 아래에 제목과 전체화면 버튼을 둔다. 버튼은 Unity의 SetFullscreen(1)을 그대로 써서
+  // 캔버스를 화면 전체로 늘린다(PC 모니터에서는 가로로 늘어난다). 빠져나올 때는 Esc·뒤로 가기.
+  // iPhone Safari처럼 요소 전체화면을 지원하지 않으면 하단 바를 숨기고 그만큼 게임 화면을 키운다.
+  var fullscreenSupported = !!(nativeRequestFullscreen || nativeWebkitRequestFullscreen)
+    && !!(document.fullscreenEnabled || document.webkitFullscreenEnabled);
+  var footerHeight = fullscreenSupported ? FOOTER_HEIGHT : 0;
+  footer.style.display = fullscreenSupported ? "flex" : "none";
+  document.querySelector("#stage").style.bottom = footerHeight + "px";
+  document.querySelector("#footer-title").textContent = document.title;
+
+  fullscreenButton.onclick = function () {
+    if (!window.unityInstance) return;
+    allowFullscreen = true;
+    try { window.unityInstance.SetFullscreen(1); } finally { allowFullscreen = false; }
+  };
+
+  // 세로 화면(휴대폰)은 하단 바 위를 꽉 채우고, 가로 화면(PC)은 9:16으로 높이에 맞춘다. 하단 바는 캔버스 폭에 맞춘다.
+  function fit() {
+    var w = window.innerWidth, h = window.innerHeight - footerHeight, cw, ch;
+    if (w / h <= 0.75) { cw = w; ch = h; }
+    else { ch = h; cw = Math.round(h * ASPECT); }
+    canvas.style.width = cw + "px";
+    canvas.style.height = ch + "px";
+    footer.style.width = cw + "px";
+    footer.style.left = Math.round((w - cw) / 2) + "px";
+  }
+  window.addEventListener("resize", fit);
+  fit();
+
+  canvas.addEventListener("webglcontextlost", function () {
+    showError("그래픽 오류", "WebGL context lost");
+  });
+
+  function unityShowBanner(msg, type) {
+    if (type == "error") { showError("오류가 발생했어요", msg); return; }
+    pushLog("warn", [msg]);
+    var box = document.querySelector("#warn");
+    var div = document.createElement("div");
+    div.textContent = msg;
+    div.style.padding = "10px";
+    div.style.background = "#fc3";
+    box.appendChild(div);
+    setTimeout(function () { box.removeChild(div); }, 5000);
+  }
+
+  var buildUrl = "Build";
+  var config = {
+    arguments: [],
+    dataUrl: buildUrl + "/TeenipingTycoon-master-WebGLBuild-1014.data.unityweb",
+    frameworkUrl: buildUrl + "/TeenipingTycoon-master-WebGLBuild-1014.framework.js.unityweb",
+    codeUrl: buildUrl + "/TeenipingTycoon-master-WebGLBuild-1014.wasm.unityweb",
+    streamingAssetsUrl: "StreamingAssets",
+    companyName: "DefaultCompany",
+    productName: "TeeniepingLittleTown",
+    productVersion: "0.0.1",
+    showBanner: unityShowBanner,
+    // 기본 처리는 alert만 띄운다. 실제 메시지를 팝업에 보여 주고 alert는 막는다.
+    errorHandler: function (message) {
+      showError("오류가 발생했어요", String(message));
+      return true;
+    },
+    // 휴대폰 고해상도 화면은 렌더 버퍼가 커져 메모리를 많이 쓴다.
+    devicePixelRatio: Math.min(window.devicePixelRatio || 1, /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ? 1.5 : 2),
+    autoSyncPersistentDataPath: true,
+  };
+
+  function start() {
+    session = { stage: "loader", time: Date.now(), logs: session.logs };
+    saveSession(true);
+    var script = document.createElement("script");
+    script.src = buildUrl + "/TeenipingTycoon-master-WebGLBuild-1014.loader.js";
+    script.onerror = function () { showError("로딩 실패", "로더 스크립트를 받지 못했어요: " + script.src); };
+    script.onload = function () {
+      var loading = document.querySelector("#loading");
+      var fill = document.querySelector("#fill");
+      var label = document.querySelector("#label");
+      createUnityInstance(canvas, config, function (p) {
+        fill.style.width = (100 * p) + "%";
+        label.textContent = "불러오는 중… " + Math.round(100 * p) + "%";
+      }).then(function (instance) {
+        window.unityInstance = instance;
+        fullscreenButton.disabled = false;
+        loading.style.display = "none";
+        window.ttReportStage("boot");
+        canvas.focus();
+      }).catch(function (message) {
+        label.textContent = "로딩 실패";
+        showError("로딩 실패", String(message));
+      });
+    };
+    document.body.appendChild(script);
+  }
+
+  // 직전 실행이 pagehide 없이 끊겼으면(탭 강제 종료) 바로 다시 받지 않고 무슨 일이 있었는지 먼저 보여 준다.
+  var previous = null;
+  try { previous = JSON.parse(localStorage.getItem(SESSION_KEY) || "null"); } catch (e) {}
+  if (previous && previous.stage && previous.stage !== "closed" && previous.stage !== "page"
+      && Date.now() - (previous.time || 0) < CRASH_WINDOW_MS) {
+    session.logs = (previous.logs || []).slice(-15);
+    document.querySelector("#label").textContent = "직전 실행이 비정상 종료됐어요";
+    showError("직전 실행이 비정상 종료됐어요",
+      "마지막 단계: " + previous.stage + "\n브라우저가 메모리 부족으로 탭을 다시 열었을 수 있어요.");
+    document.querySelector("#error-hint").textContent = "다른 탭·앱을 닫고 '다시 시작'을 눌러 주세요.";
+    document.querySelector("#error-retry").onclick = function () {
+      document.querySelector("#error").style.display = "none";
+      errorShown = false;
+      start();
+    };
+  } else {
+    start();
+  }
+</script>
+</body>
+</html>
