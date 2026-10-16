@@ -25,6 +25,8 @@
     <type fullname="CheatButton" preserve="all" />
     <type fullname="CheatCanvas" preserve="all" />
     <type fullname="CheatCurrencyButton" preserve="all" />
+    <type fullname="CheatDecoGrantCell" preserve="all" />
+    <type fullname="CheatDecoGrantPopup" preserve="all" />
     <type fullname="CheatEnterButton" preserve="all" />
     <type fullname="ClipboardStamp" preserve="all" />
     <type fullname="CommonButton" preserve="all" />
@@ -133,8 +135,6 @@
     <type fullname="TeeniepingReplaceCell" preserve="all" />
     <type fullname="TeeniepingReplacePopup" preserve="all" />
     <type fullname="TeeniepingSkillBadge" preserve="all" />
-    <type fullname="TeeniepingSkillCandidateCell" preserve="all" />
-    <type fullname="TeeniepingSkillChangePopup" preserve="all" />
     <type fullname="TeeniepingSkillConfirmPopup" preserve="all" />
     <type fullname="TeeniepingSkillInfoPopup" preserve="all" />
     <type fullname="TeeniepingSkillStarLevel" preserve="all" />
@@ -143,6 +143,7 @@
     <type fullname="TextAnimator" preserve="all" />
     <type fullname="TextEffect" preserve="all" />
     <type fullname="TextEffect_Currency" preserve="all" />
+    <type fullname="TitleSceneUI" preserve="all" />
     <type fullname="TitleUI" preserve="all" />
     <type fullname="TownHallBuilding" preserve="all" />
     <type fullname="TownHallPopup" preserve="all" />
