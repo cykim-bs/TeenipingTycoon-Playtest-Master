@@ -31,6 +31,7 @@
     <type fullname="ClipboardStamp" preserve="all" />
     <type fullname="CommonButton" preserve="all" />
     <type fullname="ConfirmPopup" preserve="all" />
+    <type fullname="ContentUnlockBlocker" preserve="all" />
     <type fullname="ContentUnlockPopup" preserve="all" />
     <type fullname="CostListView" preserve="all" />
     <type fullname="CostumeDetailPopup" preserve="all" />
@@ -77,6 +78,7 @@
     <type fullname="PhotoModeUI" preserve="all" />
     <type fullname="PlaneTreeVisual" preserve="all" />
     <type fullname="PortableItem" preserve="all" />
+    <type fullname="PriorityPhysicsRaycaster" preserve="all" />
     <type fullname="ProductionBuildingBase" preserve="all" />
     <type fullname="RegionBase" preserve="all" />
     <type fullname="RegionContentGroup" preserve="all" />
@@ -166,8 +168,6 @@
     <type fullname="MapClaySettings" preserve="nothing" serialized="true" />
     <type fullname="MapEnvironmentSettings" preserve="nothing" serialized="true" />
     <type fullname="MapGradingSettings" preserve="nothing" serialized="true" />
-    <type fullname="RegionRevealStep" preserve="nothing" serialized="true" />
-    <type fullname="RegionUnlockRevealSettings" preserve="nothing" serialized="true" />
     <type fullname="SerializableDictionary`2" preserve="nothing" serialized="true" />
     <type fullname="SerializableDictionary`2/KeyValuePair" preserve="nothing" serialized="true" />
     <type fullname="StateButton/ColorUIInfo" preserve="nothing" serialized="true" />
@@ -346,7 +346,6 @@
   </assembly>
   <assembly fullname="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="UnityEngine.EventSystems.EventSystem" preserve="all" />
-    <type fullname="UnityEngine.EventSystems.PhysicsRaycaster" preserve="all" />
     <type fullname="UnityEngine.UI.AspectRatioFitter" preserve="all" />
     <type fullname="UnityEngine.UI.Button" preserve="all" />
     <type fullname="UnityEngine.UI.CanvasScaler" preserve="all" />
