@@ -54,6 +54,8 @@
     <type fullname="FlatlandWorldController" preserve="all" />
     <type fullname="ForestRegion" preserve="all" />
     <type fullname="GachaSpecialBuilding" preserve="all" />
+    <type fullname="GrassField" preserve="all" />
+    <type fullname="GrassProfile" preserve="all" />
     <type fullname="HeartRoseOvenDeliverPresentation" preserve="all" />
     <type fullname="HeartRoseOvenWorkPresentation" preserve="all" />
     <type fullname="HoldRepeatButton" preserve="all" />
@@ -163,6 +165,8 @@
     <type fullname="CameraSeeThroughSettings" preserve="nothing" serialized="true" />
     <type fullname="FlatlandStageDelta" preserve="nothing" serialized="true" />
     <type fullname="FlatlandWorldController/CategoryRootEntry" preserve="nothing" serialized="true" />
+    <type fullname="GrassBladeSettings" preserve="nothing" serialized="true" />
+    <type fullname="GrassLookSettings" preserve="nothing" serialized="true" />
     <type fullname="IntroCurtainUI/CurtainLayer" preserve="nothing" serialized="true" />
     <type fullname="MapBloomSettings" preserve="nothing" serialized="true" />
     <type fullname="MapClaySettings" preserve="nothing" serialized="true" />
@@ -191,6 +195,7 @@
   </assembly>
   <assembly fullname="Unity.AI.Navigation, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="Unity.AI.Navigation.NavMeshModifier" preserve="all" />
+    <type fullname="Unity.AI.Navigation.NavMeshModifierVolume" preserve="all" />
     <type fullname="Unity.AI.Navigation.NavMeshSurface" preserve="all" />
   </assembly>
   <assembly fullname="Unity.InputSystem, Version=1.20.1.0, Culture=neutral, PublicKeyToken=null">
