@@ -9,6 +9,8 @@
     <type fullname="BagPopup" preserve="all" />
     <type fullname="Bitgem.VFX.StylisedWater.WaterVolumeHelper" preserve="all" />
     <type fullname="Bitgem.VFX.StylisedWater.WaterVolumeTransforms" preserve="all" />
+    <type fullname="BuildingConstructOutputCell" preserve="all" />
+    <type fullname="BuildingConstructPopup" preserve="all" />
     <type fullname="BuildingCraftButton" preserve="all" />
     <type fullname="BuildingLevelUpButton" preserve="all" />
     <type fullname="BuildingManageCell" preserve="all" />
@@ -43,7 +45,6 @@
     <type fullname="DecoSelectCell" preserve="all" />
     <type fullname="DecoSlot" preserve="all" />
     <type fullname="DecoSlotPanel" preserve="all" />
-    <type fullname="FanPivotController" preserve="all" />
     <type fullname="FillGaugeButton" preserve="all" />
     <type fullname="FlatlandActivityArea" preserve="all" />
     <type fullname="FlatlandForestPoints" preserve="all" />
@@ -144,13 +145,13 @@
     <type fullname="TeeniepingSkillStarLevel" preserve="all" />
     <type fullname="TeeniepingTalkButton" preserve="all" />
     <type fullname="TeeniepingWaitBubble" preserve="all" />
-    <type fullname="TextAnimator" preserve="all" />
     <type fullname="TextEffect" preserve="all" />
     <type fullname="TextEffect_Currency" preserve="all" />
     <type fullname="TitleSceneUI" preserve="all" />
     <type fullname="TitleUI" preserve="all" />
     <type fullname="TownHallBuilding" preserve="all" />
     <type fullname="TownHallPopup" preserve="all" />
+    <type fullname="TutorialDialogueBox" preserve="all" />
     <type fullname="TutorialObject" preserve="all" />
     <type fullname="TutorialPanel" preserve="all" />
     <type fullname="UIContents.Btn.UIToggle" preserve="all" />
@@ -163,10 +164,10 @@
     <type fullname="CameraMoveType" preserve="nothing" serialized="true" />
     <type fullname="CameraMoveTypeSettings" preserve="nothing" serialized="true" />
     <type fullname="CameraSeeThroughSettings" preserve="nothing" serialized="true" />
+    <type fullname="CameraZoomPitchSettings" preserve="nothing" serialized="true" />
     <type fullname="FlatlandStageDelta" preserve="nothing" serialized="true" />
     <type fullname="FlatlandWorldController/CategoryRootEntry" preserve="nothing" serialized="true" />
-    <type fullname="GrassBladeSettings" preserve="nothing" serialized="true" />
-    <type fullname="GrassLookSettings" preserve="nothing" serialized="true" />
+    <type fullname="GenerateFinishFxLayout" preserve="nothing" serialized="true" />
     <type fullname="IntroCurtainUI/CurtainLayer" preserve="nothing" serialized="true" />
     <type fullname="MapBloomSettings" preserve="nothing" serialized="true" />
     <type fullname="MapClaySettings" preserve="nothing" serialized="true" />
@@ -175,6 +176,8 @@
     <type fullname="SerializableDictionary`2" preserve="nothing" serialized="true" />
     <type fullname="SerializableDictionary`2/KeyValuePair" preserve="nothing" serialized="true" />
     <type fullname="StateButton/ColorUIInfo" preserve="nothing" serialized="true" />
+    <type fullname="GrassBladeSettings" preserve="nothing" serialized="true" />
+    <type fullname="GrassLookSettings" preserve="nothing" serialized="true" />
   </assembly>
   <assembly fullname="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="DG.Tweening.DOTweenAnimation" preserve="all" />
