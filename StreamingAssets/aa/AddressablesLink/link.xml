@@ -14,6 +14,7 @@
     <type fullname="BuildingCraftButton" preserve="all" />
     <type fullname="BuildingLevelUpButton" preserve="all" />
     <type fullname="BuildingManageCell" preserve="all" />
+    <type fullname="BuildingModelView" preserve="all" />
     <type fullname="BuildingNameTag" preserve="all" />
     <type fullname="BuildingPurchaseButton" preserve="all" />
     <type fullname="BuildingRadialMenu" preserve="all" />
