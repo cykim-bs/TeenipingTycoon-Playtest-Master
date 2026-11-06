@@ -183,6 +183,7 @@
     <type fullname="SerializableDictionary`2" preserve="nothing" serialized="true" />
     <type fullname="SerializableDictionary`2/KeyValuePair" preserve="nothing" serialized="true" />
     <type fullname="StateButton/ColorUIInfo" preserve="nothing" serialized="true" />
+    <type fullname="TeeniepingCostumeFit" preserve="nothing" serialized="true" />
     <type fullname="GrassBladeSettings" preserve="nothing" serialized="true" />
     <type fullname="GrassLookSettings" preserve="nothing" serialized="true" />
   </assembly>
