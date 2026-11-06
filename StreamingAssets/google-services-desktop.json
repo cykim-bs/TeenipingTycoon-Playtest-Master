@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "265116623058",
+    "project_id": "teeniping-littletown",
+    "storage_bucket": "teeniping-littletown.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265116623058:android:4914ca2ab3eba5f5ef4d0b",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.TeeniepingLittleTown"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaPHVI2VqFQV16l6XVwGrc8fk8PfbZHqY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265116623058:android:78143f4e24eb4360ef4d0b",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.TeeniepingLittleTown.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaPHVI2VqFQV16l6XVwGrc8fk8PfbZHqY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

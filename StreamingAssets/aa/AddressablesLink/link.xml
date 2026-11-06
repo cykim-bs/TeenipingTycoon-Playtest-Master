@@ -16,6 +16,7 @@
     <type fullname="BuildingManageCell" preserve="all" />
     <type fullname="BuildingModelView" preserve="all" />
     <type fullname="BuildingNameTag" preserve="all" />
+    <type fullname="BuildingPlotMarkerView" preserve="all" />
     <type fullname="BuildingPurchaseButton" preserve="all" />
     <type fullname="BuildingRadialMenu" preserve="all" />
     <type fullname="BuildingSkinCell" preserve="all" />
@@ -34,6 +35,7 @@
     <type fullname="ClipboardStamp" preserve="all" />
     <type fullname="CommonButton" preserve="all" />
     <type fullname="ConfirmPopup" preserve="all" />
+    <type fullname="ConstructionWorkerPoints" preserve="all" />
     <type fullname="ContentUnlockBlocker" preserve="all" />
     <type fullname="ContentUnlockPopup" preserve="all" />
     <type fullname="CostListView" preserve="all" />
@@ -43,6 +45,7 @@
     <type fullname="CraftSlotView" preserve="all" />
     <type fullname="CurrencyBar" preserve="all" />
     <type fullname="CurrencySlot" preserve="all" />
+    <type fullname="DecoPlacementExitButton" preserve="all" />
     <type fullname="DecoSelectCell" preserve="all" />
     <type fullname="DecoSlot" preserve="all" />
     <type fullname="DecoSlotPanel" preserve="all" />
@@ -62,8 +65,8 @@
     <type fullname="HeartRoseOvenWorkPresentation" preserve="all" />
     <type fullname="HoldRepeatButton" preserve="all" />
     <type fullname="HudContentEnterButton" preserve="all" />
+    <type fullname="InfoPopup" preserve="all" />
     <type fullname="InGameBootstrap" preserve="all" />
-    <type fullname="IntroCurtainUI" preserve="all" />
     <type fullname="ItemUpgradeCell" preserve="all" />
     <type fullname="LocalizeAuto" preserve="all" />
     <type fullname="MainSceneUI" preserve="all" />
@@ -73,6 +76,7 @@
     <type fullname="OfflineBankPopup" preserve="all" />
     <type fullname="OfflineBankPopupMotion" preserve="all" />
     <type fullname="OffscreenFocusIndicator" preserve="all" />
+    <type fullname="OkPopup" preserve="all" />
     <type fullname="OwnedTeeniepingCard" preserve="all" />
     <type fullname="OwnedTeeniepingPopup" preserve="all" />
     <type fullname="OwnedTeeniepingRowCell" preserve="all" />
@@ -101,6 +105,8 @@
     <type fullname="RoadGrid" preserve="all" />
     <type fullname="RoamingSlotCell" preserve="all" />
     <type fullname="SafeArea" preserve="all" />
+    <type fullname="ScreenshotModeCanvas" preserve="all" />
+    <type fullname="ScreenshotModeDragSurface" preserve="all" />
     <type fullname="SellAmountPopup" preserve="all" />
     <type fullname="SettingsEnterButton" preserve="all" />
     <type fullname="SettingsPopup" preserve="all" />
@@ -162,6 +168,7 @@
     <type fullname="VillageManagementSmartCard" preserve="all" />
     <type fullname="WandererTeeniepingListPopup" preserve="all" />
     <type fullname="WorldActionButtonGroup" preserve="all" />
+    <type fullname="CameraFreeLookSettings" preserve="nothing" serialized="true" />
     <type fullname="CameraMoveType" preserve="nothing" serialized="true" />
     <type fullname="CameraMoveTypeSettings" preserve="nothing" serialized="true" />
     <type fullname="CameraSeeThroughSettings" preserve="nothing" serialized="true" />
@@ -169,7 +176,6 @@
     <type fullname="FlatlandStageDelta" preserve="nothing" serialized="true" />
     <type fullname="FlatlandWorldController/CategoryRootEntry" preserve="nothing" serialized="true" />
     <type fullname="GenerateFinishFxLayout" preserve="nothing" serialized="true" />
-    <type fullname="IntroCurtainUI/CurtainLayer" preserve="nothing" serialized="true" />
     <type fullname="MapBloomSettings" preserve="nothing" serialized="true" />
     <type fullname="MapClaySettings" preserve="nothing" serialized="true" />
     <type fullname="MapEnvironmentSettings" preserve="nothing" serialized="true" />
@@ -367,7 +373,6 @@
     <type fullname="UnityEngine.UI.Mask" preserve="all" />
     <type fullname="UnityEngine.UI.RawImage" preserve="all" />
     <type fullname="UnityEngine.UI.RectMask2D" preserve="all" />
-    <type fullname="UnityEngine.UI.Scrollbar" preserve="all" />
     <type fullname="UnityEngine.UI.ScrollRect" preserve="all" />
     <type fullname="UnityEngine.UI.Shadow" preserve="all" />
     <type fullname="UnityEngine.UI.Slider" preserve="all" />
@@ -382,7 +387,6 @@
     <type fullname="UnityEngine.UI.Slider/SliderEvent" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.UI.SpriteState" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.UI.Toggle/ToggleEvent" preserve="nothing" serialized="true" />
-    <type fullname="UnityEngine.UI.Scrollbar/ScrollEvent" preserve="nothing" serialized="true" />
   </assembly>
   <assembly fullname="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="UnityEngine.Canvas" preserve="all" />
