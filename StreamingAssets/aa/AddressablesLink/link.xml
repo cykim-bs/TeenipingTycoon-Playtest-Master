@@ -39,6 +39,7 @@
     <type fullname="ContentUnlockBlocker" preserve="all" />
     <type fullname="ContentUnlockPopup" preserve="all" />
     <type fullname="CostListView" preserve="all" />
+    <type fullname="CostumeBaseFit" preserve="all" />
     <type fullname="CostumeDetailPopup" preserve="all" />
     <type fullname="CostumeGachaPopup" preserve="all" />
     <type fullname="CraftCell" preserve="all" />
@@ -183,7 +184,6 @@
     <type fullname="SerializableDictionary`2" preserve="nothing" serialized="true" />
     <type fullname="SerializableDictionary`2/KeyValuePair" preserve="nothing" serialized="true" />
     <type fullname="StateButton/ColorUIInfo" preserve="nothing" serialized="true" />
-    <type fullname="TeeniepingCostumeFit" preserve="nothing" serialized="true" />
     <type fullname="GrassBladeSettings" preserve="nothing" serialized="true" />
     <type fullname="GrassLookSettings" preserve="nothing" serialized="true" />
   </assembly>
